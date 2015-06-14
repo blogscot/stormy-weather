@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Stormy</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="error_title">Error!</string>
+    <string name="http_request_failure">HTTP Request failure!</string>
+    <string name="ok_uppercase">OK</string>
+</resources>
