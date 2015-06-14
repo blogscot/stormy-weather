@@ -15,11 +15,15 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 public class MainActivity extends ActionBarActivity {
 
   public static final String TAG = MainActivity.class.getSimpleName();
+  private CurrentWeather currentWeather;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,12 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onResponse(Response response) throws IOException {
           if (response.isSuccessful()) {
-            Log.v(TAG, response.body().toString());
+            String jsonData = response.body().string();
+            try {
+              currentWeather = getCurrentDetails(jsonData);
+            } catch (JSONException e) {
+              Toast.makeText(MainActivity.this, "Invalid Weather Data", Toast.LENGTH_LONG).show();
+            }
           } else {
             alertUserAboutError();
           }
@@ -57,6 +66,25 @@ public class MainActivity extends ActionBarActivity {
     } else {
       Toast.makeText(this, "No Network!", Toast.LENGTH_LONG).show();
     }
+  }
+
+  private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
+    CurrentWeather cw = new CurrentWeather();
+
+    JSONObject forecast = new JSONObject(jsonData);
+    JSONObject currently = forecast.getJSONObject("currently");
+
+    cw.setIcon(currently.getString("icon"));
+    cw.setTime(currently.getLong("time"));
+    cw.setHumidity(currently.getDouble("humidity"));
+    cw.setTemperature(currently.getDouble("temperature"));
+    cw.setPrecipChance(currently.getDouble("precipProbability"));
+    cw.setSummary(currently.getString("summary"));
+    cw.setTimeZone(forecast.getString("timezone"));
+
+    Log.d(TAG, cw.getFormattedTime());
+
+    return cw;
   }
 
   private boolean isNetworkAvailable() {
