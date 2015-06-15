@@ -9,27 +9,6 @@
         <dex dex="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\pre-dexed\debug\butterknife-6.1.0-86cd139289e383aa83abc39f01863e1e5ec3fa9d.jar" />
     </item>
     <item
-        jar="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.0 rc2"
-        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
-        <dex dex="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\pre-dexed\debug\classes-e2c2201caf52e69c6f2ed0b78e71ba13f6397c25.jar" />
-    </item>
-    <item
-        jar="C:\Users\Vanilla\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.4.0\5b72bf48563ea8410e650de14aa33ff69a3e8c35\okio-1.4.0.jar"
-        jumboMode="false"
-        revision="23.0.0 rc2"
-        sha1="5b72bf48563ea8410e650de14aa33ff69a3e8c35">
-        <dex dex="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\pre-dexed\debug\okio-1.4.0-204a23b3f101fdec5ec51969370992a8d020a4cf.jar" />
-    </item>
-    <item
-        jar="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
-        jumboMode="false"
-        revision="23.0.0 rc2"
-        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
-        <dex dex="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-e8a297b47a9c253f709e45f3872e017ccd72c969.jar" />
-    </item>
-    <item
         jar="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.0 rc2"
@@ -49,6 +28,27 @@
         revision="23.0.0 rc2"
         sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
         <dex dex="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-3260a7d38bd234688a7e53d3602f51815f30ea3c.jar" />
+    </item>
+    <item
+        jar="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="23.0.0 rc2"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-e8a297b47a9c253f709e45f3872e017ccd72c969.jar" />
+    </item>
+    <item
+        jar="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc2"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\pre-dexed\debug\classes-e2c2201caf52e69c6f2ed0b78e71ba13f6397c25.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vanilla\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.4.0\5b72bf48563ea8410e650de14aa33ff69a3e8c35\okio-1.4.0.jar"
+        jumboMode="false"
+        revision="23.0.0 rc2"
+        sha1="5b72bf48563ea8410e650de14aa33ff69a3e8c35">
+        <dex dex="E:\workspace\TreeHouse\Android\AndroidStudioProjects\Stormy\app\build\intermediates\pre-dexed\debug\okio-1.4.0-204a23b3f101fdec5ec51969370992a8d020a4cf.jar" />
     </item>
 
 </items>
