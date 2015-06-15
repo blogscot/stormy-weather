@@ -1,12 +1,12 @@
 package iain.diamond.com.stormy.ui;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -28,11 +28,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import iain.diamond.com.stormy.R;
 import iain.diamond.com.stormy.weather.Current;
+import iain.diamond.com.stormy.weather.Forecast;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
   public static final String TAG = MainActivity.class.getSimpleName();
-  private Current currentWeather;
+
+  private Forecast forecast;
   @InjectView(R.id.temperatureLabel) TextView temperatureValue;
   @InjectView(R.id.timeLabel) TextView timeLabel;
   @InjectView(R.id.humidityValue) TextView humidityValue;
@@ -102,7 +104,7 @@ public class MainActivity extends ActionBarActivity {
           if (response.isSuccessful()) {
             String jsonData = response.body().string();
             try {
-              currentWeather = getCurrentDetails(jsonData);
+              forecast = parseForecastDetails(jsonData);
               runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -123,33 +125,30 @@ public class MainActivity extends ActionBarActivity {
     }
   }
 
-  private void toggleRefresh() {
-    if (progressBar.getVisibility() == View.VISIBLE) {
-      progressBar.setVisibility(View.INVISIBLE);
-      refreshView.setVisibility(View.VISIBLE);
-    } else {
-      progressBar.setVisibility(View.VISIBLE);
-      refreshView.setVisibility(View.INVISIBLE);
+  private boolean isNetworkAvailable() {
+    ConnectivityManager manager = (ConnectivityManager)
+            getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+    boolean isAvailable = false;
+    if (networkInfo != null && networkInfo.isConnected()) {
+      isAvailable = true;
     }
+    return isAvailable;
   }
 
-  private void updateDisplay() {
-    temperatureValue.setText(currentWeather.getCelciusTemperatureWithDecimal());
-    timeLabel.setText("At "+currentWeather.getFormattedTime()+" it will be");
-    humidityValue.setText("" + currentWeather.getHumidity());
-    precipValue.setText("" + currentWeather.getPrecipChance() + "%");
-    summaryLabel.setText(currentWeather.getSummary());
+  private Forecast parseForecastDetails(String jsonData) throws JSONException {
+    Forecast forecast = new Forecast();
 
-    Drawable drawable = getResources().getDrawable(currentWeather.getIconId());
-    iconView.setImageDrawable(drawable);
+    forecast.setCurrent(getCurrentDetails(jsonData));
+
+    return forecast;
   }
 
   private Current getCurrentDetails(String jsonData) throws JSONException {
-    Current cw = new Current();
-
     JSONObject forecast = new JSONObject(jsonData);
     JSONObject currently = forecast.getJSONObject("currently");
 
+    Current cw = new Current();
     cw.setIcon(currently.getString("icon"));
     cw.setTime(currently.getLong("time"));
     cw.setHumidity(currently.getDouble("humidity"));
@@ -161,15 +160,27 @@ public class MainActivity extends ActionBarActivity {
     return cw;
   }
 
-  private boolean isNetworkAvailable() {
-    ConnectivityManager manager = (ConnectivityManager)
-            getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-    boolean isAvailable = false;
-    if (networkInfo != null && networkInfo.isConnected()) {
-      isAvailable = true;
+  private void updateDisplay() {
+    Current currentWeather = forecast.getCurrent();
+
+    temperatureValue.setText(currentWeather.getCelciusTemperatureWithDecimal());
+    timeLabel.setText("At "+currentWeather.getFormattedTime()+" it will be");
+    humidityValue.setText("" + currentWeather.getHumidity());
+    precipValue.setText("" + currentWeather.getPrecipChance() + "%");
+    summaryLabel.setText(currentWeather.getSummary());
+
+    Drawable drawable = getResources().getDrawable(currentWeather.getIconId());
+    iconView.setImageDrawable(drawable);
+  }
+
+  private void toggleRefresh() {
+    if (progressBar.getVisibility() == View.VISIBLE) {
+      progressBar.setVisibility(View.INVISIBLE);
+      refreshView.setVisibility(View.VISIBLE);
+    } else {
+      progressBar.setVisibility(View.VISIBLE);
+      refreshView.setVisibility(View.INVISIBLE);
     }
-    return isAvailable;
   }
 
   private void alertUserAboutError() {
