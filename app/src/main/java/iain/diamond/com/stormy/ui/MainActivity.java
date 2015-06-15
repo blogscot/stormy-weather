@@ -1,4 +1,4 @@
-package iain.diamond.com.stormy;
+package iain.diamond.com.stormy.ui;
 
 
 import android.content.Context;
@@ -26,11 +26,13 @@ import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import iain.diamond.com.stormy.R;
+import iain.diamond.com.stormy.weather.Current;
 
 public class MainActivity extends ActionBarActivity {
 
   public static final String TAG = MainActivity.class.getSimpleName();
-  private CurrentWeather currentWeather;
+  private Current currentWeather;
   @InjectView(R.id.temperatureLabel) TextView temperatureValue;
   @InjectView(R.id.timeLabel) TextView timeLabel;
   @InjectView(R.id.humidityValue) TextView humidityValue;
@@ -142,8 +144,8 @@ public class MainActivity extends ActionBarActivity {
     iconView.setImageDrawable(drawable);
   }
 
-  private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
-    CurrentWeather cw = new CurrentWeather();
+  private Current getCurrentDetails(String jsonData) throws JSONException {
+    Current cw = new Current();
 
     JSONObject forecast = new JSONObject(jsonData);
     JSONObject currently = forecast.getJSONObject("currently");

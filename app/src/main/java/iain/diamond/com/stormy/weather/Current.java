@@ -1,10 +1,12 @@
-package iain.diamond.com.stormy;
+package iain.diamond.com.stormy.weather;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class CurrentWeather {
+import iain.diamond.com.stormy.R;
+
+public class Current {
   private String icon;
   private long time;
   private double temperature;
