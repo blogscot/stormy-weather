@@ -2,11 +2,15 @@ package iain.diamond.com.stormy;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.okhttp.Call;
@@ -20,23 +24,52 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class MainActivity extends ActionBarActivity {
 
   public static final String TAG = MainActivity.class.getSimpleName();
   private CurrentWeather currentWeather;
+  @InjectView(R.id.temperatureLabel) TextView temperatureValue;
+  @InjectView(R.id.timeLabel) TextView timeLabel;
+  @InjectView(R.id.humidityValue) TextView humidityValue;
+  @InjectView(R.id.precipValue) TextView precipValue;
+  @InjectView(R.id.summaryLabel) TextView summaryLabel;
+  @InjectView(R.id.iconImageView) ImageView iconView;
+  @InjectView(R.id.refreshImageView) ImageView refreshView;
+  @InjectView(R.id.progressBar) ProgressBar progressBar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    ButterKnife.inject(this);
+
+    progressBar.setVisibility(View.INVISIBLE);
+
+    final double latitude = 56.4640;
+    final double longitude = -2.9700;
+
+    getForecast(latitude, longitude);
+
+    refreshView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        getForecast(latitude, longitude);
+      }
+    });
+  }
+
+  private void getForecast(double latitude, double longitude) {
+
     String apiKey = "77638bfbd0bacbeeeb549d151a80a047";
-    double latitude = 56.4640;
-    double longitude = -2.9700;
-    String forecastUrl = "https://api.forecast.io/forecast/" + apiKey +
+    final String forecastUrl = "https://api.forecast.io/forecast/" + apiKey +
             "/" + latitude + "," + longitude;
 
     if (isNetworkAvailable()) {
+      toggleRefresh();
       OkHttpClient client = new OkHttpClient();
       final Request request = new Request.Builder()
               .url(forecastUrl)
@@ -46,15 +79,35 @@ public class MainActivity extends ActionBarActivity {
       call.enqueue(new Callback() {
         @Override
         public void onFailure(Request request, IOException e) {
-
+          runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+              toggleRefresh();
+            }
+          });
+          alertUserAboutError();
         }
 
         @Override
         public void onResponse(Response response) throws IOException {
+          runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+              toggleRefresh();
+            }
+          });
+
           if (response.isSuccessful()) {
             String jsonData = response.body().string();
             try {
               currentWeather = getCurrentDetails(jsonData);
+              runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                  updateDisplay();
+
+                }
+              });
             } catch (JSONException e) {
               Toast.makeText(MainActivity.this, "Invalid Weather Data", Toast.LENGTH_LONG).show();
             }
@@ -66,6 +119,27 @@ public class MainActivity extends ActionBarActivity {
     } else {
       Toast.makeText(this, "No Network!", Toast.LENGTH_LONG).show();
     }
+  }
+
+  private void toggleRefresh() {
+    if (progressBar.getVisibility() == View.VISIBLE) {
+      progressBar.setVisibility(View.INVISIBLE);
+      refreshView.setVisibility(View.VISIBLE);
+    } else {
+      progressBar.setVisibility(View.VISIBLE);
+      refreshView.setVisibility(View.INVISIBLE);
+    }
+  }
+
+  private void updateDisplay() {
+    temperatureValue.setText(currentWeather.getCelciusTemperatureWithDecimal());
+    timeLabel.setText("At "+currentWeather.getFormattedTime()+" it will be");
+    humidityValue.setText("" + currentWeather.getHumidity());
+    precipValue.setText("" + currentWeather.getPrecipChance() + "%");
+    summaryLabel.setText(currentWeather.getSummary());
+
+    Drawable drawable = getResources().getDrawable(currentWeather.getIconId());
+    iconView.setImageDrawable(drawable);
   }
 
   private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
@@ -81,8 +155,6 @@ public class MainActivity extends ActionBarActivity {
     cw.setPrecipChance(currently.getDouble("precipProbability"));
     cw.setSummary(currently.getString("summary"));
     cw.setTimeZone(forecast.getString("timezone"));
-
-    Log.d(TAG, cw.getFormattedTime());
 
     return cw;
   }

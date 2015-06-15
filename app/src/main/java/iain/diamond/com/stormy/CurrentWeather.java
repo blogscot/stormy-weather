@@ -30,8 +30,8 @@ public class CurrentWeather {
   }
 
   public int getIconId() {
-
-    // clear-day, clear-night, rain, snow, sleet, wind, fog, cloudy, partly-cloudy-day, or partly-cloudy-night
+    // clear-day, clear-night, rain, snow, sleet, wind, fog,
+    // cloudy, partly-cloudy-day, or partly-cloudy-night
     int iconId;
     switch (icon) {
       case "clear-day":
@@ -88,8 +88,18 @@ public class CurrentWeather {
     this.time = time;
   }
 
-  public double getTemperature() {
-    return temperature;
+  public int getTemperature() {
+    return (int) Math.round(temperature);
+  }
+
+  private double toCelcius(double temperature) {
+    return (temperature - 32) * 5/9;
+  }
+
+  public int getCelciusTemperature() { return (int) Math.round(toCelcius(temperature)); }
+
+  public String getCelciusTemperatureWithDecimal() {
+    return String.format("%.1f", toCelcius(temperature));
   }
 
   public void setTemperature(double temperature) {
@@ -104,8 +114,12 @@ public class CurrentWeather {
     this.humidity = humidity;
   }
 
-  public double getPrecipChance() {
-    return precipChance;
+  /**
+   * Is it going to rain?
+   * @return value as a rounded percentage
+   */
+  public int getPrecipChance() {
+    return (int) Math.round(precipChance * 100);
   }
 
   public void setPrecipChance(double precipChance) {
