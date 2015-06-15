@@ -3,6 +3,7 @@ package iain.diamond.com.stormy.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -27,6 +28,7 @@ import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import iain.diamond.com.stormy.R;
 import iain.diamond.com.stormy.weather.Current;
 import iain.diamond.com.stormy.weather.Day;
@@ -214,7 +216,7 @@ public class MainActivity extends Activity {
     Current currentWeather = forecast.getCurrent();
 
     temperatureValue.setText(currentWeather.getCelciusTemperatureWithDecimal());
-    timeLabel.setText("At "+currentWeather.getFormattedTime()+" it will be");
+    timeLabel.setText("At " + currentWeather.getFormattedTime() + " it will be");
     humidityValue.setText("" + currentWeather.getHumidity());
     precipValue.setText("" + currentWeather.getPrecipChance() + "%");
     summaryLabel.setText(currentWeather.getSummary());
@@ -236,5 +238,11 @@ public class MainActivity extends Activity {
   private void alertUserAboutError() {
     AlertDialogFragment dialog = new AlertDialogFragment();
     dialog.show(getFragmentManager(), "error_dialog");
+  }
+
+  @OnClick (R.id.dailyButton)
+  public void startDailyActivity(View view){
+    Intent intent = new Intent(this, DailyForecastActivity.class);
+    startActivity(intent);
   }
 }

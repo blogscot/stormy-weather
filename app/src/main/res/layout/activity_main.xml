@@ -5,9 +5,8 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context=".MainActivity"
-                android:background="#ff32B1FF">
+                android:background="@drawable/bg_gradient">
 
     <TextView
         android:layout_width="wrap_content"
@@ -144,4 +143,33 @@
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@+id/refreshImageView"
         />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HOURLY"
+            android:id="@+id/hourlyButton"
+            android:layout_weight="1"
+            android:background="#40ffffff"
+            android:textColor="#fff"
+            android:typeface="normal"
+            android:layout_marginRight="2dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DAILY"
+            android:id="@+id/dailyButton"
+            android:layout_weight="1"
+            android:background="#40ffffff"
+            android:textColor="#fff"
+            android:layout_marginLeft="2dp"/>
+    </LinearLayout>
 </RelativeLayout>

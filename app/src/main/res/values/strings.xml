@@ -8,5 +8,7 @@
     <string name="http_request_failure">There was an error connecting.</string>
     <string name="ok_uppercase">OK</string>
     <string name="network_unavailable_message">Network is unavailable!</string>
+    <string name="title_activity_daily_forecast">DailyForecastActivity</string>
+    <string name="no_daily_forecast_data">There is no data to display</string>
 
 </resources>
