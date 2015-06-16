@@ -39,6 +39,7 @@ public class MainActivity extends Activity {
 
   public static final String TAG = MainActivity.class.getSimpleName();
   public static final String DAILY_FORECAST = "DAILY_FORECAST";
+  public static final String HOURLY_FORECAST = "HOURLY_FORECAST";
 
   private Forecast forecast;
   @InjectView(R.id.temperatureLabel) TextView temperatureValue;
@@ -246,4 +247,13 @@ public class MainActivity extends Activity {
 
     startActivity(intent);
   }
+
+  @OnClick (R.id.hourlyButton)
+  public void startHourlyActivity() {
+    Intent intent = new Intent(this, HourlyForecastActivity.class);
+    intent.putExtra(HOURLY_FORECAST, forecast.getHourlyForecasts());
+
+    startActivity(intent);
+  }
+
 }

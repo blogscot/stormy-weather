@@ -59,7 +59,10 @@ public class DayAdapter extends BaseAdapter{
     holder.iconImageView.setImageResource(day.getIconId());
     holder.temperatureLabel.setText(""+day.getCelciusTemperatureMaxWithDecimal());
     holder.dayLabel.setText(day.getDayOfTheWeek());
-
+    // Tweak the labels
+    if (position == 0) {
+      holder.dayLabel.setText("Today");
+    }
     return convertView;
   }
 
