@@ -1,22 +1,24 @@
 package iain.diamond.com.stormy.adapters;
 
-import android.media.Image;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import butterknife.InjectView;
 import iain.diamond.com.stormy.R;
 import iain.diamond.com.stormy.weather.Hour;
 
 public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder> {
 
   private Hour[] hours;
+  private Context context;
 
-  public HourAdapter(Hour[] hours) {
+  public HourAdapter(Context context, Hour[] hours) {
+    this.context = context;
     this.hours = hours;
   }
 
@@ -38,7 +40,8 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
     return hours.length;
   }
 
-  public class HourViewHolder extends RecyclerView.ViewHolder {
+  public class HourViewHolder extends RecyclerView.ViewHolder
+          implements View.OnClickListener{
 
     public TextView timeLabel;
     public TextView summaryLabel;
@@ -52,6 +55,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
       summaryLabel= (TextView) itemView.findViewById(R.id.summaryLabel);
       temperatureLabel= (TextView) itemView.findViewById(R.id.temperatureLabel);
       iconImageView = (ImageView) itemView.findViewById(R.id.iconImageView);
+      itemView.setOnClickListener(this);
     }
 
     public void bindHour(Hour hour) {
@@ -59,6 +63,17 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
       summaryLabel.setText(hour.getSummary());
       temperatureLabel.setText(hour.getTemperatureCelciusWithDecimal());
       iconImageView.setImageResource(hour.getIconId());
+    }
+
+    @Override
+    public void onClick(View v) {
+      String time = (String) timeLabel.getText();
+      String temperature = (String) temperatureLabel.getText();
+      String summary = (String) summaryLabel.getText();
+      String message = String.format("At %s it will be %s degrees with conditions: %s",
+              time, temperature, summary);
+
+      Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
   }
 }
