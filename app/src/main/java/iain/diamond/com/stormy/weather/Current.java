@@ -4,10 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import iain.diamond.com.stormy.R;
-
 public class Current {
-  private String icon;
+  private String iconString;
   private long time;
   private double temperature;
   private double humidity;
@@ -24,56 +22,14 @@ public class Current {
   }
 
   public String getIcon() {
-    return icon;
+    return iconString;
   }
 
   public void setIcon(String icon) {
-    this.icon = icon;
+    this.iconString = icon;
   }
 
-  public int getIconId() {
-    // clear-day, clear-night, rain, snow, sleet, wind, fog,
-    // cloudy, partly-cloudy-day, or partly-cloudy-night
-    int iconId;
-    switch (icon) {
-      case "clear-day":
-        iconId = R.drawable.clear_day;
-        break;
-      case "clear-night":
-        iconId = R.drawable.clear_night;
-        break;
-      case "sunny":
-        iconId = R.drawable.sunny;
-        break;
-      case "rain":
-        iconId = R.drawable.rain;
-        break;
-      case "snow":
-        iconId = R.drawable.snow;
-        break;
-      case "sleet":
-        iconId = R.drawable.sleet;
-        break;
-      case "wind":
-        iconId = R.drawable.wind;
-        break;
-      case "fog":
-        iconId = R.drawable.fog;
-        break;
-      case "cloudy":
-        iconId = R.drawable.cloudy;
-        break;
-      case "partly-cloudy-day":
-        iconId = R.drawable.partly_cloudy;
-        break;
-      case "partly-cloudy-night":
-        iconId = R.drawable.cloudy_night;
-        break;
-      default:
-        iconId = R.drawable.clear_day;
-    }
-    return iconId;
-  }
+  public int getIconId() { return Forecast.getIconId(iconString);  }
 
   public long getTime() {
     return time;

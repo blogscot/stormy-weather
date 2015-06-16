@@ -38,6 +38,7 @@ import iain.diamond.com.stormy.weather.Hour;
 public class MainActivity extends Activity {
 
   public static final String TAG = MainActivity.class.getSimpleName();
+  public static final String DAILY_FORECAST = "DAILY_FORECAST";
 
   private Forecast forecast;
   @InjectView(R.id.temperatureLabel) TextView temperatureValue;
@@ -155,9 +156,7 @@ public class MainActivity extends Activity {
     JSONObject hourly = forecast.getJSONObject("hourly");
     JSONArray data = hourly.getJSONArray("data");
     String timezone = forecast.getString("timezone");
-    // The code fails if the the array is set to the data length: IndexOutOfBoundsException
-    // I can't see why this should happen, so as a work-around: just add 1
-    Hour[] hours = new Hour[data.length()+1];
+    Hour[] hours = new Hour[data.length()];
 
     for (int i = 0; i < data.length(); i++) {
       JSONObject jsonHour = data.getJSONObject(i);
@@ -179,7 +178,7 @@ public class MainActivity extends Activity {
     JSONObject daily = forecast.getJSONObject("daily");
     JSONArray data = daily.getJSONArray("data");
     String timezone = forecast.getString("timezone");
-    Day[] days = new Day[data.length()+1];
+    Day[] days = new Day[data.length()];
 
     for(int i = 0; i < data.length(); i++) {
       JSONObject jsonDay = data.getJSONObject(i);
@@ -243,6 +242,8 @@ public class MainActivity extends Activity {
   @OnClick (R.id.dailyButton)
   public void startDailyActivity(View view){
     Intent intent = new Intent(this, DailyForecastActivity.class);
+    intent.putExtra(DAILY_FORECAST, forecast.getDailyForecasts());
+
     startActivity(intent);
   }
 }
